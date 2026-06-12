@@ -1,8 +1,12 @@
 package model
 
-data class Equipment(
+class Equipment(
     val equipmentId: String,
     val name: String,
     val category: String,
-    var isAvailable: Boolean = true
-)
+    var isAvailable: Boolean
+) {
+    fun displayInfo(): String {
+        return "$name ($category) - Available: $isAvailable"
+    }
+}
