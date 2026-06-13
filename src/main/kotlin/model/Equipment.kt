@@ -1,5 +1,4 @@
 package model
-
 class Equipment(
     val equipmentId: String,
     val name: String,
@@ -9,4 +8,14 @@ class Equipment(
     fun displayInfo(): String {
         return "$name ($category) - Available: $isAvailable"
     }
+
+    fun borrow(): Boolean {
+        return if (isAvailable) {
+            isAvailable = false
+            true
+        } else {
+            false
+        }
+    }
 }
+
