@@ -15,4 +15,8 @@ data class Student(
         borrowRequests.add(request)
         return true
     }
+
+    fun addReminder(reminder: Reminder) {
+        reminders.add(reminder)
+    }
 }

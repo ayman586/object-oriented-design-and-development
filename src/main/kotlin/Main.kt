@@ -1,6 +1,8 @@
 import model.BorrowRequest
 import model.Equipment
 import model.Student
+import model.Reminder
+import java.time.LocalDate
 
 fun main() {
 
@@ -9,7 +11,45 @@ fun main() {
 
     val student = Student(username)
 
+    if (username.equals("john", ignoreCase = true)) {
+
+        student.addReminder(
+            Reminder(
+                "Please return the Dell Laptop by Friday.",
+                LocalDate.of(2026, 6, 20)
+            )
+        )
+
+        student.addReminder(
+            Reminder(
+                "Your borrowing request has been approved.",
+                LocalDate.of(2026, 6, 18)
+            )
+        )
+    }
+
+    if (username.equals("emma", ignoreCase = true)) {
+
+        student.addReminder(
+            Reminder(
+                "The microphone you requested is ready for collection.",
+                LocalDate.of(2026, 6, 18)
+            )
+        )
+    }
+
     println("\nWelcome $username!")
+
+    if (student.reminders.isNotEmpty()) {
+
+        println("\n--- REMINDERS ---")
+
+        for (reminder in student.reminders) {
+            println("${reminder.message} (${reminder.date})")
+        }
+
+        println("-----------------\n")
+    }
 
     val equipmentList = mutableListOf(
         Equipment("E1", "Dell Laptop", "Laptop", true),
