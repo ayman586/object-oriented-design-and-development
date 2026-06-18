@@ -1,15 +1,16 @@
+import model.BorrowRequest
 import model.Equipment
 import model.Student
-import model.BorrowRequest
-
 
 fun main() {
 
     print("Enter your username: ")
-    val username = readLine()?:"Guest"
+    val username = readLine() ?: "Guest"
+
     val student = Student(username)
 
     println("\nWelcome $username!")
+
     val equipmentList = mutableListOf(
         Equipment("E1", "Dell Laptop", "Laptop", true),
         Equipment("E2", "HP Laptop", "Laptop", true),
@@ -24,21 +25,20 @@ fun main() {
 
         println("\n--- MENU ---")
         println("1. Search equipment by category")
-        println("2.Borrow equipement")
-        println("3. Exit")
+        println("2. Borrow equipment")
+        println("3. View my borrow requests")
+        println("4. Exit")
         print("Choose option: ")
 
-        val choice = readLine()
-
-        when (choice) {
+        when (readLine()) {
 
             "1" -> {
                 print("\nEnter category (Laptop / Tablet / Microphone / Video Recording Equipment): ")
                 val category = readLine()
-                var found=false
+
+                var found = false
 
                 println("\nMatching equipment:\n")
-
 
                 for (item in equipmentList) {
                     if (item.category.equals(category, ignoreCase = true)) {
@@ -69,21 +69,21 @@ fun main() {
                     println("Equipment not found.")
                 } else {
 
-                    print("Enter due date (for example 20/06/2026): ")
+                    print("Enter due date (e.g. 20/06/2026): ")
                     val dueDate = readLine() ?: ""
 
                     val request = BorrowRequest(
-                        "R1",
-                        student,
-                        selected,
-                        dueDate,
-                        "Pending"
+                        requestId = "R1",
+                        student = student,
+                        equipment = selected,
+                        dueDate = dueDate,
+                        status = "PENDING"
                     )
 
                     val success = student.addBorrowRequest(request)
 
                     if (success) {
-                        println("Borrow request registered successfully.")
+                        println("Borrow request successful.")
                     } else {
                         println("This equipment is currently on loan and cannot be borrowed.")
                     }
@@ -91,17 +91,31 @@ fun main() {
             }
 
             "3" -> {
+
+                if (student.borrowRequests.isEmpty()) {
+                    println("You have no equipment requests.")
+                } else {
+                    println("\nYour equipment requests:\n")
+
+                    for (request in student.borrowRequests) {
+                        println(
+                            "${request.equipment.name} - Due: ${request.dueDate} - Status: ${request.status}"
+                        )
+                    }
+                }
+            }
+
+            "4" -> {
                 println("Goodbye!")
                 break
             }
 
             else -> {
-                println("Invalid option.")
+                println("Invalid option. Try again.")
             }
         }
     }
 }
-
 
 
 
